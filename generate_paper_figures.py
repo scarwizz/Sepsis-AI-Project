@@ -1,5 +1,5 @@
 """
-Publication-Quality Scientific Figures Generator (IEEE EMBC / Computing in Cardiology).
+Scientific Figures Generator for Multi-Horizon Sepsis Prediction Benchmark.
 Generates:
 1. figures/fig1_roc_pr_comparison.png (+ PDF):
    Side-by-side Test ROC and Precision-Recall curves across 4 architectures at H=6h & H=12h.
@@ -437,14 +437,14 @@ def plot_fig4_case_study():
 
 def main():
     print("=" * 80)
-    print("GENERATING IEEE / CINC PUBLICATION FIGURES (300 DPI PNG + VECTOR PDF)")
+    print("GENERATING BENCHMARK FIGURES (300 DPI PNG + VECTOR PDF)")
     print("=" * 80)
     plot_fig1_roc_pr()
     plot_fig2_horizon_curves()
     plot_fig3_levy_area_importance()
     plot_fig4_case_study()
     print("=" * 80)
-    print("ALL 4 PUBLICATION FIGURES GENERATED SUCCESSFULLY IN figures/")
+    print("ALL 4 BENCHMARK FIGURES GENERATED SUCCESSFULLY IN figures/")
     print("=" * 80)
 
 

@@ -5,7 +5,7 @@
 [![PyTorch 2.4](https://img.shields.io/badge/PyTorch-2.4%20CUDA-ee4c2c.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This repository contains the official, publication-grade implementation for our research paper on **Early Sepsis Prediction from Non-Invasive Wearable Vital Signs** using causal deep learning and geometric rough path theory on the full **PhysioNet Computing in Cardiology Challenge 2019** cohort (40,336 ICU stays across MIMIC-III and Emory eICU).
+This repository provides a modular, reproducible benchmark for **Early Sepsis Prediction from Non-Invasive Wearable Vital Signs** using causal deep learning and geometric rough path theory on the full **PhysioNet Computing in Cardiology Challenge 2019** cohort (40,336 ICU stays across MIMIC-III and Emory eICU).
 
 ---
 
@@ -72,7 +72,7 @@ E:\AI\
 │   └── default_config.yaml    # Centralized hyperparameters, seeds, and dilation schedules
 ├── data/
 │   └── cleaned_sepsis_dataset.csv       # Full PhysioNet 2019 dataset (40,336 patients, 66.3 MB)
-├── figures/                   # Publication-ready figures (300 DPI PNG + Vector PDF)
+├── figures/                   # High-resolution benchmark figures (300 DPI PNG + Vector PDF)
 │   ├── fig1_roc_pr_comparison.png       # Test ROC and Precision-Recall curves
 │   ├── fig2_horizon_utility_curve.png   # Multi-horizon utility and AUROC error bands
 │   ├── fig3_levy_area_importance.png    # Learned physiological Lévy area feature importance
@@ -94,7 +94,7 @@ E:\AI\
 │       └── seed.py            # Complete deterministic random seeding
 ├── train_pipeline.py          # Unified CLI entry point for full-cohort training
 ├── evaluate_pipeline.py       # Unified held-out Test evaluation with 200 patient bootstrap CIs
-├── run_full_cohort_benchmark.py # Master runner executing the entire paper experiment matrix
+├── run_full_cohort_benchmark.py # Master runner executing the full benchmark experiment matrix
 ├── generate_paper_figures.py  # Standalone figure generation script
 ├── requirements.txt           # Pinned dependencies
 └── README.md
@@ -138,9 +138,9 @@ All models are trained under strict 70/15/15 patient-level disjoint stratificati
 
 ---
 
-## 5. Publication Figures
+## 5. Benchmark Figures
 
-The complete suite of publication figures is rendered at 300 DPI in `figures/` (available in both high-resolution PNG and vector PDF):
+The complete suite of benchmark figures is rendered at 300 DPI in `figures/` (available in both high-resolution PNG and vector PDF):
 
 | Figure | Description | File Link |
 | :--- | :--- | :--- |
@@ -155,8 +155,8 @@ The complete suite of publication figures is rendered at 300 DPI in `figures/` (
 
 ### 6.1 Installation
 ```bash
-git clone https://github.com/your-username/sepsis-wearable-rough-paths.git
-cd sepsis-wearable-rough-paths
+git clone https://github.com/scarwizz/Sepsis-AI-Project.git
+cd Sepsis-AI-Project
 pip install -r requirements.txt
 ```
 
@@ -183,27 +183,12 @@ To run the automated multi-architecture ablation, multi-horizon sweep, and figur
 python run_full_cohort_benchmark.py
 ```
 
-To regenerate the publication figures independently:
+To regenerate the benchmark figures independently:
 ```bash
 python generate_paper_figures.py
 ```
 
 ---
 
-## 7. Citation
-
-If you use this codebase, models, or causal evaluation methodology in your research, please cite:
-
-```bibtex
-@article{singh2026sepsispathsignatures,
-  title={Multi-Horizon Early Sepsis Detection from Wearable Physiological Vitals via Causal Neural Rough Path Invariants},
-  author={Singh, Arpit and Contributors},
-  journal={IEEE Transactions on Biomedical Engineering / Computing in Cardiology},
-  year={2026}
-}
-```
-
----
-
-## 8. License
+## 7. License
 This repository is open-source under the [MIT License](LICENSE).
