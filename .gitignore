@@ -1,0 +1,64 @@
+# Large datasets & raw clinical files
+data/*.csv
+data/*.psv
+data/*.parquet
+data/*.h5
+*.psv
+
+# PyTorch & Model Checkpoints
+checkpoints/*.pth
+checkpoints/*.pkl
+checkpoints/*.pt
+*.pth
+*.pkl
+
+# Legacy script and result archives
+archive/
+
+# Python cache & environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+.venv/
+env/
+venv/
+.pytest_cache/
+.mplconfig/
+evaluation_outputs/
+
+# OS specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Explicitly ensure publication results and figures remain tracked
+!results/*.csv
+!results/*.md
+!figures/*.png
+!figures/*.pdf
+
+# Big data files
+*.csv
+*.psv
+*.parquet
+*.h5
+*.pth
+*.pt
+*.pkl
+archive/
+evaluation_outputs/
+.mplconfig/
+
+# Whitelist small publication result CSVs and figures
+!results/*.csv
+!figures/*.png
+!figures/*.pdf

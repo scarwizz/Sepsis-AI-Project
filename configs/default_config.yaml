@@ -1,0 +1,111 @@
+# PhysioNet 2019 Sepsis Early Onset Prediction Configuration
+# Staff ML Engineering & Clinical Time-Series Configuration
+
+project:
+  name: "sepsis-early-prediction"
+  version: "2.0.0"
+
+seed:
+  global_seed: 42
+  deterministic_cudnn: false
+
+data:
+  # Primary dataset file
+  raw_csv_path: "data/cleaned_sepsis_dataset.csv"
+  fallback_csv_path: "data/final_mice_imputed_balanced.csv"
+  
+  # Schema definitions
+  patient_id_col: "Patient_ID"
+  time_col: "Hour"
+  label_col: "SepsisLabel"
+  
+  # Core 6 vital signs in cleaned_sepsis_dataset.csv (Temp, HR, O2Sat, Resp, SBP, DBP)
+  # In PhysioNet, MAP is often computed as (SBP + 2*DBP)/3 if missing
+  vitals:
+    - "HR"
+    - "O2Sat"
+    - "Temp"
+    - "SBP"
+    - "DBP"
+    - "Resp"
+    
+  # Patient-level split fractions (Strictly disjoint patient IDs)
+  split_ratios:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+
+horizons:
+  # Prediction horizons (hours in advance of clinical sepsis onset t_sepsis)
+  # SepsisLabel = 1 starts at t_sepsis - 6 in raw PhysioNet data
+  # Corrected reconstruction: t_sepsis = raw_onset + 6
+  target_horizons: [2, 4, 6, 8, 10, 12]
+  default_horizon: 6
+  sequence_length: 14  # Length of sliding time-series window (hours)
+
+features:
+  rolling_windows: [3, 6]
+  include_derivatives: true
+  include_signatures: false
+  signature_depth: 3
+  signature_cols: ["HR", "O2Sat", "Temp", "SBP", "DBP", "Resp"]
+
+models:
+  tcn:
+    num_channels: [32, 64, 128]
+    kernel_size: 3       # k=3 with d=[1,2,4] yields RF = 1 + 2*(k-1)*(1+2+4) = 29 hours (> seq_len 14/16/18)
+    dropout: 0.2
+    
+  tcn_attention:
+    num_channels: [32, 64, 128]
+    kernel_size: 3
+    attention_dim: 64
+    dropout: 0.2
+    
+  hybrid_tcn_lstm:
+    tcn_channels: [32, 64, 128]
+    kernel_size: 3
+    lstm_hidden_size: 128
+    lstm_num_layers: 2
+    dropout: 0.2
+    
+  hybrid_signature:
+    tcn_channels: [32, 64]
+    kernel_size: 3
+    mlp_hidden_size: 64
+    dropout: 0.2
+    
+  tree_baseline:
+    model_type: "lightgbm"  # "lightgbm" or "xgboost"
+    n_estimators: 200
+    learning_rate: 0.05
+    max_depth: 6
+    num_leaves: 31
+    scale_pos_weight: 10.0
+    random_state: 42
+
+training:
+  batch_size: 64
+  learning_rate: 0.0005
+  weight_decay: 0.0001
+  num_epochs: 15
+  clip_grad_norm: 1.0
+  device: "auto"
+  
+  # Loss configuration
+  loss_type: "focal"   # "focal", "bce_weighted", "focal_tversky"
+  focal:
+    alpha: 0.75        # Positive class weight (1-alpha applied to negative class)
+    gamma: 2.0
+  bce:
+    pos_weight: 10.0
+  tversky:
+    alpha: 0.7
+    beta: 0.3
+    gamma: 2.0
+
+evaluation:
+  min_recall_target: 0.85
+  default_threshold: 0.5
+  output_dir: "evaluation_outputs"
+  save_predictions: true

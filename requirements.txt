@@ -1,0 +1,25 @@
+# Sepsis Onset Prediction Dependencies
+# Python >= 3.10, <= 3.12 recommended
+
+# Core Deep Learning Framework
+torch>=2.2.0
+torchvision>=0.17.0
+torchaudio>=2.2.0
+
+# Scientific Computing & Data Processing
+numpy>=1.24.0,<2.0.0
+pandas>=2.0.0,<3.0.0
+scipy>=1.10.0
+scikit-learn>=1.3.0
+
+# Configuration & Utilities
+PyYAML>=6.0
+tqdm>=4.65.0
+
+# Gradient Boosted Decision Tree Baselines (Optional / Recommended)
+lightgbm>=4.0.0
+xgboost>=2.0.0
+
+# Visualization & Reporting
+matplotlib>=3.7.0
+seaborn>=0.12.0
